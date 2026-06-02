@@ -155,3 +155,23 @@ header {
 }
 
 .btn-secondary:hover { background-color: #2e354f; }
+/* Tab View Configuration */
+.tab-content {
+    display: none; /* Hide sections by default */
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.tab-content.active-tab {
+    display: block; /* Show active section */
+}
+
+.tab-content h2 {
+    margin-bottom: 15px;
+    color: #4f46e5;
+}
+
+/* Smooth page fade-in animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
