@@ -10,57 +10,108 @@
 
     <div class="sidebar">
         <h2>ScriptHub</h2>
-        <a href="#" class="active">🏠 Dashboard</a>
-        <a href="#">🔥 Popular</a>
-        <a href="#">🛠️ Utilities</a>
-        <a href="#">🎮 Game Scripts</a>
-        <a href="#">📚 Documentation</a>
+        <a href="#" class="nav-link active" data-target="dashboard">🏠 Dashboard</a>
+        <a href="#" class="nav-link" data-target="popular">🔥 Popular</a>
+        <a href="#" class="nav-link" data-target="utilities">🛠️ Utilities</a>
+        <a href="#" class="nav-link" data-target="games">🎮 Game Scripts</a>
+        <a href="#" class="nav-link" data-target="docs">📚 Documentation</a>
     </div>
 
     <div class="main-content">
         <header>
             <input type="text" placeholder="Search scripts or repositories..." class="search-bar">
-            <button class="btn btn-primary">Upload Script</button>
+            <button class="btn btn-primary" onclick="alert('Upload system coming soon!')">Upload Script</button>
         </header>
 
-        <section class="script-grid">
-            <div class="script-card">
-                <div class="card-header">
-                    <h3>HD Admin Utilities</h3>
-                    <span class="tag tag-lua">Lua</span>
+        <section id="dashboard" class="tab-content active-tab">
+            <div class="script-grid">
+                
+                <div class="script-card">
+                    <div class="card-header">
+                        <h3>HD Admin Utilities</h3>
+                        <span class="tag tag-lua">Lua</span>
+                    </div>
+                    <p>A collection of open-source admin commands and server helper utilities for developers.</p>
+                    <div class="card-footer">
+                        <span class="views">👁️ 1.2k views</span>
+                        <button class="btn btn-secondary copy-btn" data-script="-- HD Admin Utility Script&#10;print('HD Admin Utilities Loaded!')&#10;local Api = require(game:GetService('ReplicatedStorage'):WaitForChild('HDAdminSetup')):GetMain():GetModule('API')">Copy Script</button>
+                    </div>
                 </div>
-                <p>A collection of open-source admin commands and server helper utilities for developers.</p>
-                <div class="card-footer">
-                    <span class="views">👁️ 1.2k views</span>
-                    <button class="btn btn-secondary" onclick="alert('Script copied to clipboard!')">Copy Script</button>
-                </div>
-            </div>
 
-            <div class="script-card">
-                <div class="card-header">
-                    <h3>Auto-Save Leaderstats</h3>
-                    <span class="tag tag-lua">Lua</span>
+                <div class="script-card">
+                    <div class="card-header">
+                        <h3>Auto-Save Leaderstats</h3>
+                        <span class="tag tag-lua">Lua</span>
+                    </div>
+                    <p>Easily back up player data to DataStores safely without data-loss during server crashes.</p>
+                    <div class="card-footer">
+                        <span class="views">👁️ 840 views</span>
+                        <button class="btn btn-secondary copy-btn" data-script="-- Auto-Save Leaderstats&#10;local DataStoreService = game:GetService('DataStoreService')&#10;local MyDataStore = DataStoreService:GetDataStore('SaveStats')">Copy Script</button>
+                    </div>
                 </div>
-                <p>Easily back up player data to DataStores safely without data-loss during server crashes.</p>
-                <div class="card-footer">
-                    <span class="views">👁️ 840 views</span>
-                    <button class="btn btn-secondary" onclick="alert('Script copied to clipboard!')">Copy Script</button>
-                </div>
-            </div>
 
-            <div class="script-card">
-                <div class="card-header">
-                    <h3>Custom UI Themes</h3>
-                    <span class="tag tag-css">CSS</span>
+                <div class="script-card">
+                    <div class="card-header">
+                        <h3>Custom UI Themes</h3>
+                        <span class="tag tag-css">CSS</span>
+                    </div>
+                    <p>A modern dark mode layout stylesheet meant for modifying custom admin panels.</p>
+                    <div class="card-footer">
+                        <span class="views">👁️ 450 views</span>
+                        <button class="btn btn-secondary copy-btn" data-script="/* Custom UI Dark Theme */&#10;.admin-panel { background: #0f111a; color: #fff; }">Copy Script</button>
+                    </div>
                 </div>
-                <p>A modern dark mode layout stylesheet meant for modifying custom admin panels.</p>
-                <div class="card-footer">
-                    <span class="views">👁️ 450 views</span>
-                    <button class="btn btn-secondary" onclick="alert('Script copied to clipboard!')">Copy Script</button>
-                </div>
+
             </div>
         </section>
+
+        <section id="popular" class="tab-content"><h2>🔥 Popular Scripts</h2><p>Trending scripts will appear here.</p></section>
+        <section id="utilities" class="tab-content"><h2>🛠️ Utilities</h2><p>Developer helper tools.</p></section>
+        <section id="games" class="tab-content"><h2>🎮 Game Scripts</h2><p>Custom open-source mini-game code patches.</p></section>
+        <section id="docs" class="tab-content"><h2>📚 Documentation</h2><p>Read instructions on how to use these snippets.</p></section>
     </div>
 
+    <script>
+        // 1. CLIPBOARD COPYING FUNCTIONality
+        document.querySelectorAll('.copy-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const scriptText = this.getAttribute('data-script');
+                
+                // Copy to system clipboard
+                navigator.clipboard.writeText(scriptText).then(() => {
+                    // Visual feedback on button
+                    const originalText = this.innerText;
+                    this.innerText = "✅ Copied!";
+                    this.style.backgroundColor = "#10b981"; // Change to green temporarily
+                    
+                    setTimeout(() => {
+                        this.innerText = originalText;
+                        this.style.backgroundColor = ""; // Reset color
+                    }, 1500);
+                }).catch(err => {
+                    alert('Failed to copy code: ', err);
+                });
+            });
+        });
+
+        // 2. SIDEBAR TAB SWITCHING FUNCTIONality
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all links
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                // Add active class to clicked link
+                this.classList.add('active');
+                
+                // Hide all tabs
+                document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active-tab'));
+                
+                // Show selected tab
+                const targetId = this.getAttribute('data-target');
+                document.getElementById(targetId).classList.add('active-tab');
+            });
+        });
+    </script>
 </body>
 </html>
